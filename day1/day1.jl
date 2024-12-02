@@ -7,15 +7,12 @@ function day1_distance(input_path::AbstractString)
   return sum(abs.(l1.-l2))
 end
 
-
 day1_distance("ressources/day1_test.txt")
 day1_distance("ressources/day1_input.txt")
-
 
 ####
 function day1_similarity(input_path::AbstractString)
   input = Int.(readdlm(input_path))
-
   d=Dict{Int,Int}()
   res = 0
   for i in axes(input,1)
@@ -28,7 +25,6 @@ function day1_similarity(input_path::AbstractString)
 
   return res
 end
-
 
 day1_similarity("ressources/day1_test.txt")
 day1_similarity("ressources/day1_input.txt")
