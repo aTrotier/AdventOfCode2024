@@ -1,4 +1,3 @@
-using DelimitedFiles
 
 function read_data(filename)
   data = Vector{Int}[]
@@ -11,20 +10,46 @@ function read_data(filename)
   return data
 end
 
-function day2_safety(input_path::AbstractString)
-  data = read_data(input_path)
+
+input_path=joinpath(@__DIR__,"ressources/day2_test.txt")
+#input_path=joinpath(@__DIR__,"ressources/day2_input.txt")
+row_in = read_data(input_path)
+
+function day2_safety(row)
   res = 0
-  for i in axes(data,1)
-    drow = diff(data[i])
-    if all(drow .<= 0) || all(drow .>= 0) & (all(abs.(drow) .>= 1 .&& abs.(drow) .<= 3))
-      if all(abs.(drow) .>= 1 .&& abs.(drow) .<= 3)
+  for i in axes(row,1)
+    drow = diff(row[i])
+    if (all(drow .<= 0) || all(drow .>= 0)) && (all(abs.(drow) .>= 1 .&& abs.(drow) .<= 3))
         res += 1
-      end
     end  
   end
   return res
 end
 
+day2_safety(row_in)
 
-day2_safety(joinpath(@__DIR__,"ressources/day2_test.txt"))
-day2_safety(joinpath(@__DIR__,"ressources/day2_input.txt"))
+## second part
+function day2_remove_level(row_in)
+  res=0
+  for i in axes(row_in,1)
+    res_test = false
+    for j in axes(row_in[i],1)
+      tmp = copy(row_in[i])
+      deleteat!(tmp,j)
+      drow = diff(tmp)
+      if (all(drow .<= 0) || all(drow .>= 0)) && (all(abs.(drow) .>= 1 .&& abs.(drow) .<= 3))
+        res_test = true
+      end  
+    end
+
+    if res_test;res+=1 end
+  end
+  return res
+end
+
+
+#input_path=joinpath(@__DIR__,"ressources/day2_test.txt")
+input_path=joinpath(@__DIR__,"ressources/day2_input.txt")
+row_in = read_data(input_path)
+
+day2_remove_level(row_in)
